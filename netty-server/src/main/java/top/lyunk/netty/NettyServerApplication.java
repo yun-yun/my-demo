@@ -1,12 +1,12 @@
-package top.lyunk.nettyclient;
+package top.lyunk.netty;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class NettyClientApplication {
+public class NettyServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(NettyClientApplication.class, args);
+        SpringApplication.run(NettyServerApplication.class, args);
     }
 }

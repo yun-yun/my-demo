@@ -1,4 +1,4 @@
-package top.lyunk.nettyserver;
+package top.lyunk.netty;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

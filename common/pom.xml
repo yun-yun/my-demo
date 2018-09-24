@@ -12,6 +12,12 @@
     <artifactId>common</artifactId>
 
     <dependencies>
+        <dependency>
+            <artifactId>config</artifactId>
+            <groupId>top.lyunk</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!--pinyin4j-->
         <dependency>
             <groupId>com.belerweb</groupId>

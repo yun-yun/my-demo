@@ -5,7 +5,7 @@
 
     <groupId>top.lyunk</groupId>
     <artifactId>netty-client</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>netty-client</name>
@@ -25,7 +25,11 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <artifactId>config</artifactId>
+            <groupId>top.lyunk</groupId>
+            <version>${project.version}</version>
+        </dependency>
         <!--netty begin-->
         <dependency>
             <groupId>io.netty</groupId>

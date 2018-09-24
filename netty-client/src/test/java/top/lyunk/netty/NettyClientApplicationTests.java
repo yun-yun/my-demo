@@ -1,4 +1,4 @@
-package top.lyunk.nettyserver;
+package top.lyunk.netty;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class NettyServerApplicationTests {
+public class NettyClientApplicationTests {
 
     @Test
     public void contextLoads() {

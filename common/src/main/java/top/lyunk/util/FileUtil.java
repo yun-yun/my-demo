@@ -36,6 +36,7 @@ public final class FileUtil {
 
     /**
      * 获取文件的md5
+     *
      * @param file
      * @return
      */
@@ -61,6 +62,7 @@ public final class FileUtil {
             }
         }
     }
+
     /**
      * 获取文件的行数
      *
@@ -68,7 +70,7 @@ public final class FileUtil {
      * @return 文件行数
      */
     public final static int countLines(File file) {
-        try(LineNumberReader rf = new LineNumberReader(new FileReader(file))){
+        try (LineNumberReader rf = new LineNumberReader(new FileReader(file))) {
             long fileLength = file.length();
             rf.skip(fileLength);
             return rf.getLineNumber();
@@ -330,8 +332,6 @@ public final class FileUtil {
     }
 
 
-
-
     /**
      * 复制文件
      *
@@ -373,7 +373,6 @@ public final class FileUtil {
         }
         return false;
     }
-
 
 
     /**
@@ -513,12 +512,13 @@ public final class FileUtil {
 
     /**
      * 罗列指定路径下的全部文件
-     * @param path 需要处理的文件
+     *
+     * @param path  需要处理的文件
      * @param child 是否罗列子文件
      * @return 包含所有文件的的list
      */
-    public final static List<File> listFile(String path,boolean child){
-        return listFile(new File(path),child);
+    public final static List<File> listFile(String path, boolean child) {
+        return listFile(new File(path), child);
     }
 
 
@@ -545,11 +545,12 @@ public final class FileUtil {
 
     /**
      * 罗列指定路径下的全部文件
-     * @param path 指定的路径
+     *
+     * @param path  指定的路径
      * @param child 是否罗列子目录
      * @return
      */
-    public final static List<File> listFile(File path,boolean child){
+    public final static List<File> listFile(File path, boolean child) {
         List<File> list = new ArrayList<>();
         File[] files = path.listFiles();
         if (CheckUtil.valid(files)) {
@@ -694,11 +695,98 @@ public final class FileUtil {
 
     /**
      * 获取文件后缀名
+     *
      * @param file
      * @return
      */
-    public final static String suffix(File file){
-        String fileName=file.getName();
-        return fileName.substring(fileName.indexOf(".")+1);
+    public final static String suffix(File file) {
+        String fileName = file.getName();
+        return fileName.substring(fileName.indexOf(".") + 1);
+    }
+
+    /**
+     * 文件转换为byte数组
+     *
+     * @param file
+     * @return
+     */
+    public final static byte[] file2Bytes(File file) {
+        byte[] bytes = null;
+        FileInputStream fis = null;
+        BufferedInputStream bis = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            fis = new FileInputStream(file);
+            bis = new BufferedInputStream(fis);
+            baos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
+            int n;
+            while ((n = bis.read(b)) != -1) {
+                baos.write(b, 0, n);
+            }
+            fis.close();
+            baos.close();
+            bytes = baos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (baos != null) {
+                try {
+                    baos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return bytes;
+    }
+
+    public final static void bytes2File(byte[] buf, String filePath, String fileName) {
+        BufferedOutputStream bos = null;
+        FileOutputStream fos = null;
+        File file = null;
+        try {
+            File dir = new File(filePath);
+            if (!dir.exists() && dir.isDirectory()) {
+                dir.mkdirs();
+            }
+            file = new File(filePath + File.separator + fileName);
+            fos = new FileOutputStream(file);
+            bos = new BufferedOutputStream(fos);
+            bos.write(buf);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
