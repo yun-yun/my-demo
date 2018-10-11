@@ -9,11 +9,15 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import top.lyunk.httpclient.convert.HttpResp2StringConverter;
+import top.lyunk.httpclient.convert.HttpRespConverter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Set;
@@ -74,6 +78,23 @@ public class HttpClientUtil {
             httpClientClose();
         }
         return new Object();
+    }
+
+    public <T extends HttpRespConverter> T sendHttp(HttpMethods httpMethod, String url, String param,Class<T> convert){
+        try {
+            switchHttpMethod(httpMethod, url, param);
+
+            T aConvert = convert.newInstance();
+            Method method = convert.getSuperclass().getMethod("convert", CloseableHttpResponse.class);
+            method.invoke(aConvert,this.response);
+            return aConvert;
+        } catch (IOException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+            httpClientClose();
+        } finally {
+            httpClientClose();
+        }
+        return null;
     }
 
     private void switchHttpMethod(HttpMethods method, String url, String param) throws IOException {
@@ -151,6 +172,8 @@ public class HttpClientUtil {
     public static void main(String[] args) {
         HttpClientUtil httpClientUtil = new HttpClientUtil();
 //        httpClientUtil.sendGetHttp("http://114.115.171.59/img/test.jpg", "");
-        httpClientUtil.sendGetHttp("https://stackoverflow.com/questions/4915414/disable-httpclient-logging/49173217#49173217", "");
+//        httpClientUtil.sendGetHttp("https://stackoverflow.com/questions/4915414/disable-httpclient-logging/49173217#49173217", "");
+        HttpResp2StringConverter httpResp2StringConverter = httpClientUtil.sendHttp(HttpMethods.GET, "https://stackoverflow.com/questions/4915414/disable-httpclient-logging/49173217#49173217", "", HttpResp2StringConverter.class);
+        System.out.println(httpResp2StringConverter.getContent());
     }
 }
