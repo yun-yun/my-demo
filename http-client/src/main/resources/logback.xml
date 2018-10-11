@@ -1,0 +1,5 @@
+<configuration>
+    <logger name="top.lyunk" level="DEBUG" />
+    <logger name="org.apache" level="WARN" />
+    <logger name="httpclient" level="WARN" />
+</configuration>

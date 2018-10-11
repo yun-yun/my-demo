@@ -20,9 +20,6 @@ public class SimpleHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        super.channelRead(ctx, msg);
-        ((ByteBuf)msg).release();
-        ReferenceCountUtil.release(msg);
     }
 
     /**
